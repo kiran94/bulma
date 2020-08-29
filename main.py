@@ -6,6 +6,7 @@ import argparse
 import base64
 import pandas as pd
 import shutil
+import pprint
 
 
 def run_corpus(configuration, **kwargs):
@@ -73,7 +74,14 @@ def write_report(results, **kwargs):
         results.to_csv('output.csv')
     else:
         with open('output.md', 'w') as f:
+            f.write(f'# {kwargs.get("title", "Project")} \n')
+            f.write(f'## Results \n')
             results.to_markdown(f)
+            f.write('\n')
+            f.write(f'## Configuration \n')
+            f.write(f'```json \n')
+            f.write(pprint.pformat(kwargs.get('configuration'), indent=2))
+            f.write(f'``` \n')
 
 
 if __name__ == "__main__":
@@ -107,6 +115,6 @@ if __name__ == "__main__":
                               vegeta_path=args.vegeta_path,
                               output_path=args.output_path)
 
-    write_report(results, output=args.output)
+    write_report(results, output=args.output, title=configuration['Project'], configuration=configuration)
 
     shutil.rmtree(args.output_path)
