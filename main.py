@@ -69,11 +69,12 @@ def write_report(results, **kwargs):
             frames.append(frame)
 
     results = pd.concat(frames)
+    output_file = kwargs.get('output_name') + '.' + kwargs.get('output_type')
 
-    if kwargs.get('output') == 'csv':
-        results.to_csv('output.csv')
+    if kwargs.get('output_type') == 'csv':
+        results.to_csv(output_file)
     else:
-        with open('output.md', 'w') as f:
+        with open(output_file, 'w') as f:
             f.write(f'# {kwargs.get("title", "Project")} \n')
             f.write(f'## Results \n')
             results.to_markdown(f)
@@ -91,7 +92,8 @@ if __name__ == "__main__":
     parser.add_argument('--vegeta_path', default='vegeta')
     parser.add_argument('--output_path', default='output/')
     parser.add_argument('--description_sub_regex', default='[^A-Za-z0-9]+')
-    parser.add_argument('--output', choices=['csv', 'md'], default='md')
+    parser.add_argument('--output_type', choices=['csv', 'md'], default='md')
+    parser.add_argument('--output_name', default='output')
 
     args = parser.parse_args()
 
@@ -115,6 +117,10 @@ if __name__ == "__main__":
                               vegeta_path=args.vegeta_path,
                               output_path=args.output_path)
 
-    write_report(results, output=args.output, title=configuration['Project'], configuration=configuration)
+    write_report(results,
+                output_type=args.output_type,
+                title=configuration['Project'],
+                configuration=configuration,
+                output_name=args.output_name)
 
     shutil.rmtree(args.output_path)
