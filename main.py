@@ -55,7 +55,7 @@ def generate_report(output_files, **kwargs):
         yield result
 
 
-def write_report(results):
+def write_report(results, **kwargs):
     frames = []
 
     for res in results:
@@ -68,8 +68,13 @@ def write_report(results):
             frames.append(frame)
 
     results = pd.concat(frames)
-    results.to_csv('output.csv')
-    print('Done')
+
+    if kwargs.get('output') == 'csv':
+        results.to_csv('output.csv')
+    else:
+        with open('output.md', 'w') as f:
+            results.to_markdown(f)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -78,6 +83,7 @@ if __name__ == "__main__":
     parser.add_argument('--vegeta_path', default='vegeta')
     parser.add_argument('--output_path', default='output/')
     parser.add_argument('--description_sub_regex', default='[^A-Za-z0-9]+')
+    parser.add_argument('--output', choices=['csv', 'md'], default='md')
 
     args = parser.parse_args()
 
@@ -101,6 +107,6 @@ if __name__ == "__main__":
                               vegeta_path=args.vegeta_path,
                               output_path=args.output_path)
 
-    write_report(results)
+    write_report(results, output=args.output)
 
     shutil.rmtree(args.output_path)
