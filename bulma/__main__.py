@@ -11,9 +11,9 @@ import pprint
 
 def run_corpus(configuration, **kwargs):
     for index, case in enumerate(configuration['Corpus']):
-        case['desc'] = kwargs.get('description_sub_regex').sub('_', case['desc']).lower()
+        case['id'] = kwargs.get('description_sub_regex').sub('_', case['id']).lower()
 
-        print(index+1, '-', case['desc'])
+        print(index+1, '-', case['id'])
 
         append_headers = kwargs.get('append_headers', None)
         if append_headers:
@@ -36,7 +36,7 @@ def run_corpus(configuration, **kwargs):
         with open(args.temp_file, mode='w') as f:
             json.dump(case, f, indent=None)
 
-        output_file = os.path.join(kwargs.get("output_path"), case["desc"]) + ".bin"
+        output_file = os.path.join(kwargs.get("output_path"), case["id"]) + ".bin"
         duration = configuration["Duration"] or '5s'
         rate = configuration["Rate"] or '50/1s'
 
@@ -45,12 +45,12 @@ def run_corpus(configuration, **kwargs):
         subprocess.run(cmd, shell=True, encoding='utf-8')
 
         os.remove(args.temp_file)
-        yield {'desc': case['desc'], 'file': output_file}
+        yield {'id': case['id'], 'file': output_file}
 
 
 def generate_report(output_files, **kwargs):
     for result in output_files:
-        output_file = os.path.join(kwargs.get("output_path"), result["desc"]) + "_report.json"
+        output_file = os.path.join(kwargs.get("output_path"), result["id"]) + "_report.json"
         cmd = f'cat {result["file"]} | {kwargs.get("vegeta_path")} report -type json > {output_file}'
         print(cmd)
         subprocess.run(cmd, shell=True, encoding='utf-8')
@@ -66,8 +66,8 @@ def write_report(results, **kwargs):
             raw = f.read()
             json_raw = json.loads(raw)
             frame = pd.json_normalize(json_raw)
-            frame['desc'] = res['desc']
-            frame.set_index('desc', inplace=True)
+            frame['id'] = res['id']
+            frame.set_index('id', inplace=True)
             frames.append(frame)
 
     results = pd.concat(frames)
