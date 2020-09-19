@@ -1,8 +1,6 @@
 # Bulma
 
-![Deploy](https://github.com/kiran94/bulma/workflows/Deploy/badge.svg)
-
-[![PyPI version](https://badge.fury.io/py/bulma-load.svg)](https://badge.fury.io/py/bulma-load)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/kiran94/bulma/Deploy) ![PyPI](https://img.shields.io/pypi/v/bulma-load)
 
 A companion to [Vegeta](https://github.com/tsenart/vegeta) that tells him what to do. Define a configuration file like below and run: 
 
