@@ -9,7 +9,7 @@ with open("requirements.txt", 'r') as require:
 
 setuptools.setup(
     name="bulma-load",
-    version="0.0.6",
+    version="0.0.8",
     author="Kiran Patel",
     author_email="na@gmail.com",
     license='MIT',
