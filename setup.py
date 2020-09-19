@@ -8,8 +8,8 @@ with open("requirements.txt", 'r') as require:
     packages = [p.strip('\n') for p in packages]
 
 setuptools.setup(
-    name="bulma",
-    version="0.0.2",
+    name="bulma-load",
+    version="0.0.3",
     author="Kiran Patel",
     author_email="na@gmail.com",
     description="Wrapper for Vegeta Load Testing tool",
