@@ -22,8 +22,9 @@ def run_corpus(configuration, **kwargs):
 
         append_headers = kwargs.get('append_headers', None)
         if append_headers:
-            logger.debug('Appending Headers')
-            case['header'].update(append_headers)
+            logger.debug(case['header'])
+            logger.debug(f'Appending Headers {append_headers}')
+            case['header'] = {**case['header'], **append_headers}
 
         if 'body_graphql' in case:
             logger.debug('Fetching GraphQL File')
@@ -118,11 +119,10 @@ if __name__ == "__main__":
 
     os.makedirs(args.output_path, exist_ok=True)
 
-    custom_header = {'header1': ['value1'], 'header2': ['value2']}
     results = run_corpus(configuration,
                          temp_file=args.temp_file,
                          vegeta_path=args.vegeta_path,
-                         append_headers=custom_header,
+                         append_headers=configuration['Header'],
                          description_sub_regex=re.compile(args.description_sub_regex),
                          output_path=args.output_path)
 
