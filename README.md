@@ -1,5 +1,7 @@
 # Bulma
 
+![Upload Python Package](https://github.com/kiran94/bulma/workflows/Upload%20Python%20Package/badge.svg)
+
 A companion to [Vegeta](https://github.com/tsenart/vegeta) that tells him what to do. Define a configuration file like below and run: 
 
 ```sh
