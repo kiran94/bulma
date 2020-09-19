@@ -7,33 +7,38 @@ import base64
 import pandas as pd
 import shutil
 import pprint
+import logging
+from bulma.logger import LOGGING_EXTRA
 
+logger = logging.getLogger("bulma")
 
 def run_corpus(configuration, **kwargs):
+    logger.info(f'[bold green]Running {len(configuration["Corpus"])} Tests(s)', **LOGGING_EXTRA)
+
     for index, case in enumerate(configuration['Corpus']):
         case['id'] = kwargs.get('description_sub_regex').sub('_', case['id']).lower()
 
-        print(index+1, '-', case['id'])
+        logger.info(f'{index+1} - {case["id"]}')
 
         append_headers = kwargs.get('append_headers', None)
         if append_headers:
-            print('Appending Headers')
+            logger.debug('Appending Headers')
             case['header'].update(append_headers)
 
         if 'body_graphql' in case:
-            print('Fetching GraphQL File')
+            logger.debug('Fetching GraphQL File')
             with open(case['body_graphql'], 'r') as f:
                 case['body'] = json.dumps({ 'query': f.read() })
             del case['body_graphql']
 
         if 'body_file' in case:
-            print('Fetching Body File')
+            logger.debug('Fetching Body File')
             with open(case['body_file'], 'r') as f:
                 case['body'] = f.read()
             del case['body_file']
 
         if 'body' in case:
-            print('Encoding Body')
+            logger.debug('Encoding Body')
             message_bytes = case['body'].encode('ascii')
             base64_bytes = base64.b64encode(message_bytes)
             case['body'] = base64_bytes.decode('ascii')
@@ -46,7 +51,7 @@ def run_corpus(configuration, **kwargs):
         rate = configuration["Rate"] or '50/1s'
 
         cmd = f'cat {kwargs.get("temp_file")} | jq -cM | {kwargs.get("vegeta_path")} attack -duration {duration} -rate {rate} -format json > {output_file}'
-        print(cmd)
+        logger.debug(cmd)
         subprocess.run(cmd, shell=True, encoding='utf-8')
 
         os.remove(args.temp_file)
@@ -54,18 +59,19 @@ def run_corpus(configuration, **kwargs):
 
 
 def generate_report(output_files, **kwargs):
+    logger.info('[green]Generating Vegeta Report', **LOGGING_EXTRA)
     for result in output_files:
         output_file = os.path.join(kwargs.get("output_path"), result["id"]) + "_report.json"
         cmd = f'cat {result["file"]} | {kwargs.get("vegeta_path")} report -type json > {output_file}'
-        print(cmd)
+        logger.debug(cmd)
         subprocess.run(cmd, shell=True, encoding='utf-8')
         result['report_json'] = output_file
         yield result
 
 
 def write_report(results, **kwargs):
+    logger.info('[green]Writing Report', **LOGGING_EXTRA)
     frames = []
-
     for res in results:
         with open(res['report_json'], 'r') as f:
             raw = f.read()
@@ -107,8 +113,8 @@ if __name__ == "__main__":
     with open(args.config, mode='r') as f:
         configuration = json.loads(f.read())
 
-    print(f'Running {configuration["Project"]}')
-    print(f'Duration {configuration["Duration"]}')
+    logger.info(f'Running {configuration["Project"]}')
+    logger.info(f'Duration {configuration["Duration"]}')
 
     os.makedirs(args.output_path, exist_ok=True)
 
@@ -120,10 +126,10 @@ if __name__ == "__main__":
                          description_sub_regex=re.compile(args.description_sub_regex),
                          output_path=args.output_path)
 
+    results = list(results)
     results = generate_report(results,
                               vegeta_path=args.vegeta_path,
                               output_path=args.output_path)
-
     write_report(results,
                 title=configuration['Project'],
                 configuration=configuration,
