@@ -1,6 +1,6 @@
 # Bulma
 
-![Upload Python Package](https://github.com/kiran94/bulma/workflows/Deploy/badge.svg)
+![Deploy](https://github.com/kiran94/bulma/workflows/Deploy/badge.svg)
 
 [![PyPI version](https://badge.fury.io/py/bulma-load.svg)](https://badge.fury.io/py/bulma-load)
 
