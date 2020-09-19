@@ -125,9 +125,9 @@ if __name__ == "__main__":
                               output_path=args.output_path)
 
     write_report(results,
-                output_type=args.output_type,
                 title=configuration['Project'],
                 configuration=configuration,
-                output_name=args.output_name)
+                output_name=args.output_name or configuration['OutputName'],
+                output_type=args.output_type or configuration['OutputType'])
 
     shutil.rmtree(args.output_path)
