@@ -1,0 +1,44 @@
+{
+    "Project": "Bulma Samples",
+    "Duration": "5s",
+    "Rate": "50/1s",
+    "Header": {
+        "Content-Type":[ "application/json" ],
+        "Accept-Encoding":[ "*" ]
+    },
+    "Corpus": [
+        {
+            "id": "Getting Todo JSON data",
+            "method": "GET",
+            "url": "https://jsonplaceholder.typicode.com/todos/1",
+            "header": { "Content-Type": ["application/json"] }
+        },
+        {
+            "id": "Converting text to Md5",
+            "method": "GET",
+            "url": "http://md5.jsontest.com/?text=example_text",
+            "header": { "Content-Type": ["application/json"] }
+        },
+        {
+            "id": "Loading Country GraphQL data",
+            "method": "POST",
+            "url": "https://countries.trevorblades.com/",
+            "header": { "Content-Type": ["application/json"] },
+            "body_graphql": "samples/countries.graphql"
+        },
+        {
+            "id": "Echo from a Body File",
+            "method": "POST",
+            "url": "https://postman-echo.com/post",
+            "header": { "Content-Type": ["application/json"] },
+            "body_file": "samples/echo.json"
+        },
+        {
+            "id": "Echo from a Body",
+            "method": "POST",
+            "url": "https://postman-echo.com/post",
+            "header": { "Content-Type": ["application/json"] },
+            "body": "Gohan"
+        }
+    ]
+}
