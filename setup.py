@@ -8,9 +8,10 @@ with open("requirements.txt", 'r') as require:
     packages = [p.strip('\n') for p in packages]
 
 setuptools.setup(
-    name="bulma", # Replace with your own username
+    name="bulma",
     version="0.0.2",
     author="Kiran Patel",
+    author_email="na@gmail.com",
     description="Wrapper for Vegeta Load Testing tool",
     long_description=long_description,
     long_description_content_type="text/markdown",
