@@ -71,7 +71,7 @@ def generate_report(output_files, **kwargs):
 
 
 def write_report(results, **kwargs):
-    logger.info('[green]Writing Report', **LOGGING_EXTRA)
+    logger.debug('[green]Writing Report', **LOGGING_EXTRA)
     frames = []
     for res in results:
         with open(res['report_json'], 'r') as f:
@@ -85,6 +85,7 @@ def write_report(results, **kwargs):
     results = pd.concat(frames)
     output_file = kwargs.get('output_name') + '.' + kwargs.get('output_type')
 
+    logger.info(f'[green]Outputting {output_file}', **LOGGING_EXTRA)
     if kwargs.get('output_type') == 'csv':
         results.to_csv(output_file)
     else:
