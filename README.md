@@ -46,4 +46,6 @@ Bulma supports the following body types which can be attached to any cases witin
 - `body_file`: Relative location to a file, content's are extracted
 - `body_graphql`: Relative location to a file containing a GraphQL query. contents are extracted and pushed into `query` property for a GraphQL request
 
-[Full Sample](samples/bulma.config.json)
+*Note that relativity here is relative to where you run the script*
+
+[Full Sample](https://github.com/kiran94/bulma/blob/master/samples/bulma.config.json)

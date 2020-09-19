@@ -9,9 +9,10 @@ with open("requirements.txt", 'r') as require:
 
 setuptools.setup(
     name="bulma-load",
-    version="0.0.5",
+    version="0.0.6",
     author="Kiran Patel",
     author_email="na@gmail.com",
+    license='MIT',
     description="Wrapper for Vegeta Load Testing tool",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -22,6 +23,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    keywords='vegeta load testing stress',
     install_requires=packages,
     python_requires='>=3.6',
 )
