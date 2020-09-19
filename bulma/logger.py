@@ -5,7 +5,7 @@ import os
 FORMAT = "%(message)s"
 LEVEL = os.environ.get('BULMA_LOGGING_LEVEL', 'INFO')
 LOGGING_EXTRA = {
-    "extra": { "markup": True }
+    "extra": {"markup": True}
 }
 
 logging.basicConfig(

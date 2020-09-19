@@ -12,6 +12,7 @@ from bulma.logger import LOGGING_EXTRA
 
 logger = logging.getLogger("bulma")
 
+
 def run_corpus(configuration, **kwargs):
     logger.info(f'[bold green]Running {len(configuration["Corpus"])} Tests(s)', **LOGGING_EXTRA)
 
@@ -29,7 +30,7 @@ def run_corpus(configuration, **kwargs):
         if 'body_graphql' in case:
             logger.debug('Fetching GraphQL File')
             with open(case['body_graphql'], 'r') as f:
-                case['body'] = json.dumps({ 'query': f.read() })
+                case['body'] = json.dumps({'query': f.read()})
             del case['body_graphql']
 
         if 'body_file' in case:
@@ -132,9 +133,9 @@ if __name__ == "__main__":
                               vegeta_path=args.vegeta_path,
                               output_path=args.output_path)
     write_report(results,
-                title=configuration['Project'],
-                configuration=configuration,
-                output_name=args.output_name or configuration['OutputName'],
-                output_type=args.output_type or configuration['OutputType'])
+                 title=configuration['Project'],
+                 configuration=configuration,
+                 output_name=args.output_name or configuration['OutputName'],
+                 output_type=args.output_type or configuration['OutputType'])
 
     shutil.rmtree(args.output_path)
