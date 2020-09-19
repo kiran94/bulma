@@ -20,10 +20,15 @@ def run_corpus(configuration, **kwargs):
             print('Appending Headers')
             case['header'].update(append_headers)
 
+        if 'body_graphql' in case:
+            print('Fetching GraphQL File')
+            with open(case['body_graphql'], 'r') as f:
+                case['body'] = json.dumps({ 'query': f.read() })
+            del case['body_graphql']
+
         if 'body_file' in case:
             print('Fetching Body File')
-            body_file_path = case['body_file']
-            with open(body_file_path, 'r') as f:
+            with open(case['body_file'], 'r') as f:
                 case['body'] = f.read()
             del case['body_file']
 
