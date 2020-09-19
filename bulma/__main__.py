@@ -37,8 +37,10 @@ def run_corpus(configuration, **kwargs):
             json.dump(case, f, indent=None)
 
         output_file = os.path.join(kwargs.get("output_path"), case["desc"]) + ".bin"
+        duration = configuration["Duration"] or '5s'
+        rate = configuration["Rate"] or '50/1s'
 
-        cmd = f'cat {kwargs.get("temp_file")} | jq -cM | {kwargs.get("vegeta_path")} attack -duration {configuration["Duration"]} -format json > {output_file}'
+        cmd = f'cat {kwargs.get("temp_file")} | jq -cM | {kwargs.get("vegeta_path")} attack -duration {duration} -rate {rate} -format json > {output_file}'
         print(cmd)
         subprocess.run(cmd, shell=True, encoding='utf-8')
 
